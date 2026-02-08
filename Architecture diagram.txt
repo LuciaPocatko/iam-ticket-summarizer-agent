@@ -1,0 +1,51 @@
+┌─────────────────────────────────────────────────────┐
+                   │                SharePoint / OneDrive               │
+                   │  (Authoritative weekly Excel export: Tickets.xlsx) │
+                   └───────────────▲─────────────────────────────────────┘
+                                   │ 1) Read-only file fetch
+                                   │
+                     ┌─────────────┴─────────────┐
+                     │  Orchestration Runner     │
+                     │  (manual run or scheduler │
+                     │   in approved environment)│
+                     └─────────────┬─────────────┘
+                                   │ 2) Invoke Agent with rows
+                                   ▼
+                    ┌────────────────────────────────┐
+                    │  IAM Ticket Summarizer Agent   │
+                    │  (System Prompt + Policies)    │
+                    │  - Language gate               │
+                    │  - Subject→onboarding override │
+                    │  - Keyword classification      │
+                    │  - Device extraction           │
+                    │  - Security flag suffix        │
+                    └───────────────┬────────────────┘
+                                    │ 3) LLM inference (Reason→Act = summary)
+                                    ▼
+                         ┌──────────────────────────────┐
+                         │  LLM / Model Provider        │
+                         │  (No external writes)        │
+                         └───────────────▲──────────────┘
+                                         │ 3a) Deterministic response (advisory)
+                                         │
+                         ┌───────────────┴──────────────────────┐
+                         │ Governance & Policy Layer             │
+                         │ (YAML policies, stop conditions,      │
+                         │  output schema, logging schema)       │
+                         └───────────────┬──────────────────────┘
+                                         │ 4) Validate/format/log
+                                         ▼
+            ┌───────────────────────────────────────────────────────────┐
+            │ Output Artifacts (SharePoint/OneDrive write-only folder)  │
+            │ - TXT summary (strict per-ticket blocks)                   │
+            │ - JSON run log (evidence: keywords, devices, counters)     │
+            └───────────────────────────────────────────────────────────┘
+                                         │
+                                         │ 5) Human-in-the-loop review
+                                         ▼
+       ┌────────────────────────────────────────────────────────────────────┐
+       │  IAM Operations & Security Analysts (HUMAN-IN-THE-LOOP)            │
+       │  - Read summaries                                                   │
+       │  - Decide actions (assign tickets, offboarding steps, SecOps triage)│
+       │  - Own kill-switch & escalation                                     │
+       └────────────────────────────────────────────────────────────────────┘
