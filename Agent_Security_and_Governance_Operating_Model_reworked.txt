@@ -1,0 +1,163 @@
+AGENT SECURITY & GOVERNANCE OPERATING MODEL
+
+1. AGENT ROLE MODEL
+
+Roles and Responsibilities
+
+Agent (Autonomous System)
+- Executes predefined tasks within scoped domains
+- Applies policies, prompts, and tools as configured
+- Produces recommendations, actions, or artifacts
+
+Human Operator
+- Reviews high-risk or irreversible actions
+- Provides approvals and overrides
+- Owns final accountability for outcomes
+
+Agent Owner
+- Defines agent purpose and success criteria
+- Approves capability scope and changes
+- Accountable for business impact
+
+Model Owner
+- Selects and maintains LLMs and embeddings
+- Manages model updates, performance, and safety
+
+Data Owner
+- Owns authoritative data sources
+- Approves data access, retention, and sharing
+
+Authority Boundaries
+- Agents cannot expand scope, permissions, or tools
+- Agents cannot self-modify prompts or policies
+- Humans retain authority over irreversible actions
+
+Dependency Relationships
+- Agent depends on Model Owner for inference quality
+- Agent depends on Data Owner for data correctness
+- Agent Owner depends on audit logs for governance
+
+
+2. BEHAVIOR & DECISION MODEL
+
+Autonomous Decisions
+- Information retrieval from approved sources
+- Data transformation and summarization
+- Low-risk recommendations and drafts
+
+Human Approval Required
+- External system writes
+- User-impacting actions (emails, deletions, updates)
+- Decisions with legal, financial, or safety impact
+
+Explicitly Prohibited
+- Acting outside defined role or domain
+- Using unapproved data sources
+- Generating deceptive, manipulative, or unsafe outputs
+
+Risk Tolerance
+- Low tolerance for irreversible actions
+- Medium tolerance for advisory outputs
+- Zero tolerance for policy violations
+
+
+3. FAILURE & DEGRADATION MODEL
+
+Failure Scenarios
+- LLM unavailability or hallucination
+- Stale, missing, or corrupted data
+- Integration or API failures
+
+Degraded Operating Modes
+- Read-only advisory mode
+- Cached knowledge mode
+- Human-in-the-loop only mode
+
+Stop Conditions
+- Repeated policy violations
+- Loss of auditability
+- Detection of unsafe behavior
+- On any stop condition, processing halts immediately and the run is escalated to human operational review before any resume.
+
+
+4. TRUST BOUNDARIES & DATA ZONES
+
+Data Zones
+
+Authoritative Data
+- Systems of record (databases, verified APIs)
+
+Advisory Data
+- Documents, wikis, external knowledge
+
+Permissions
+- Agents have least-privilege read access
+- Write access restricted to approved workflows
+
+Trust Assumptions
+- Authoritative data is assumed accurate but may be incomplete or delayed
+- Advisory data and policies may lag emerging risks or contain bias
+
+
+5. EXPLAINABILITY & AUDIT MODEL
+
+Explainable Decisions
+- Any user-impacting recommendation
+- Any automated action
+- Any policy-relevant decision
+
+Logging Requirements
+- Inputs, outputs, prompts, and tool calls
+- Policy checks and explicit decision rationale
+
+Audit Trail
+- Tamper-evident logs
+- Retention aligned with compliance requirements
+- Deterministic re-execution using identical inputs and versions
+
+
+6. CHANGE & EVOLUTION MODEL
+
+Changeable Elements
+- Prompts and policies
+- Integrations and tools
+- Models and configurations
+
+Approval Process
+- Impact analysis
+- Security and policy review
+- Controlled rollout
+
+Rollback Strategy
+- Versioned prompts and configurations
+- Immediate revert to last approved version
+- Mandatory post-incident review
+
+
+7. OPERATIONAL OWNERSHIP MODEL
+
+Ownership
+- Agent Owner: business accountability
+- Data Owner: data integrity and access
+- Model Owner: model behavior and safety
+
+Incident Response
+- Defined escalation paths
+- On-call ownership
+- Post-mortem required
+
+Kill Switch Authority
+- Agent Owner and Security Lead
+- Immediate disablement capability
+
+
+8. KAF COMPONENT MAPPING
+
+Agent Role Model: Agent Builder
+Behavior & Decision Model: Agentic Core
+Failure & Degradation Model: Agentic Core
+Trust Boundaries & Data Zones: Knowledge Integration
+Explainability & Audit Model: Responsible AI & Governance
+Change & Evolution Model: Agent Builder
+Operational Ownership Model: Responsible AI & Governance
+Source Ingestion: Agentic Ingestion
